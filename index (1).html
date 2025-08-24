@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantumChain | Cybernetic Blockchain Evolution</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cyber-black': '#0D0221',
+                        'cyber-purple': '#9D4EDD',
+                        'cyber-pink': '#FF206E',
+                        'cyber-blue': '#05D9E8',
+                        'cyber-yellow': '#F9F002',
+                        'cyber-gray': '#2A2438',
+                    },
+                    fontFamily: {
+                        'cyber': ['Orbitron', 'BlenderPro', 'sans-serif'],
+                        'future': ['Rajdhani', 'sans-serif'],
+                    },
+                    animation: {
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'flicker': 'flicker 3s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'scan': 'scan 4s linear infinite',
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { textShadow: '0 0 5px #fff, 0 0 10px #fff, 0 0 15px #9D4EDD, 0 0 20px #9D4EDD' },
+                            '100%': { textShadow: '0 0 10px #fff, 0 0 20px #fff, 0 0 30px #05D9E8, 0 0 40px #05D9E8' }
+                        },
+                        flicker: {
+                            '0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100%': { opacity: 1 },
+                            '20%, 21.999%, 63%, 63.999%, 65%, 69.999%': { opacity: 0.4 }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        scan: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '50%': { transform: 'translateY(100%)' },
+                            '100%': { transform: 'translateY(-100%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow-neon {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #9D4EDD, 0 0 20px #9D4EDD, 0 0 25px #9D4EDD;
+            }
+            .text-shadow-blue {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #05D9E8, 0 0 20px #05D9E8;
+            }
+            .text-shadow-pink {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #FF206E, 0 0 20px #FF206E;
+            }
+            .border-glow {
+                box-shadow: 0 0 5px #9D4EDD, 0 0 10px #9D4EDD;
+            }
+            .border-glow-blue {
+                box-shadow: 0 0 5px #05D9E8, 0 0 10px #05D9E8;
+            }
+            .clip-polygon {
+                clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+            }
+            .noise-bg {
+                position: relative;
+            }
+            .noise-bg::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0.05;
+                z-index: 1;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+                pointer-events: none;
+            }
+            .scanline {
+                position: absolute;
+                width: 100%;
+                height: 5px;
+                background: rgba(255, 255, 255, 0.1);
+                z-index: 2;
+            }
+            .glitch {
+                position: relative;
+            }
+            .glitch::before, .glitch::after {
+                content: attr(data-text);
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+            .glitch::before {
+                left: 2px;
+                text-shadow: -2px 0 #FF206E;
+                clip: rect(44px, 450px, 56px, 0);
+                animation: glitch-anim 5s infinite linear alternate-reverse;
+            }
+            .glitch::after {
+                left: -2px;
+                text-shadow: -2px 0 #05D9E8;
+                clip: rect(44px, 450px, 56px, 0);
+                animation: glitch-anim2 5s infinite linear alternate-reverse;
+            }
+            @keyframes glitch-anim {
+                0% { clip: rect(42px, 9999px, 44px, 0); }
+                5% { clip: rect(12px, 9999px, 59px, 0); }
+                10% { clip: rect(48px, 9999px, 29px, 0); }
+                15% { clip: rect(42px, 9999px, 73px, 0); }
+                20% { clip: rect(63px, 9999px, 27px, 0); }
+                25% { clip: rect(34px, 9999px, 55px, 0); }
+                30% { clip: rect(86px, 9999px, 73px, 0); }
+                35% { clip: rect(20px, 9999px, 20px, 0); }
+                40% { clip: rect(26px, 9999px, 60px, 0); }
+                45% { clip: rect(25px, 9999px, 66px, 0); }
+                50% { clip: rect(57px, 9999px, 98px, 0); }
+                55% { clip: rect(5px, 9999px, 46px, 0); }
+                60% { clip: rect(82px, 9999px, 31px, 0); }
+                65% { clip: rect(54px, 9999px, 27px, 0); }
+                70% { clip: rect(28px, 9999px, 99px, 0); }
+                75% { clip: rect(45px, 9999px, 69px, 0); }
+                80% { clip: rect(23px, 9999px, 85px, 0); }
+                85% { clip: rect(54px, 9999px, 84px, 0); }
+                90% { clip: rect(45px, 9999px, 47px, 0); }
+                95% { clip: rect(37px, 9999px, 20px, 0); }
+                100% { clip: rect(4px, 9999px, 91px, 0); }
+            }
+            @keyframes glitch-anim2 {
+                0% { clip: rect(65px, 9999px, 100px, 0); }
+                5% { clip: rect(52px, 9999px, 74px, 0); }
+                10% { clip: rect(79px, 9999px, 85px, 0); }
+                15% { clip: rect(75px, 9999px, 5px, 0); }
+                20% { clip: rect(67px, 9999px, 61px, 0); }
+                25% { clip: rect(14px, 9999px, 79px, 0); }
+                30% { clip: rect(1px, 9999px, 66px, 0); }
+                35% { clip: rect(86px, 9999px, 30px, 0); }
+                40% { clip: rect(23px, 9999px, 98px, 0); }
+                45% { clip: rect(85px, 9999px, 72px, 0); }
+                50% { clip: rect(71px, 9999px, 75px, 0); }
+                55% { clip: rect(2px, 9999px, 48px, 0); }
+                60% { clip: rect(30px, 9999px, 16px, 0); }
+                65% { clip: rect(59px, 9999px, 50px, 0); }
+                70% { clip: rect(41px, 9999px, 62px, 0); }
+                75% { clip: rect(2px, 9999px, 82px, 0); }
+                80% { clip: rect(47px, 9999px, 73px, 0); }
+                85% { clip: rect(3px, 9999px, 27px, 0); }
+                90% { clip: rect(26px, 9999px, 55px, 0); }
+                95% { clip: rect(42px, 9999px, 97px, 0); }
+                100% { clip: rect(38px, 9999px, 49px, 0); }
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-cyber-black text-white font-future overflow-x-hidden noise-bg relative">
+    <!-- Scanline effect -->
+    <div class="scanline animate-scan"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-cyber-black/80 backdrop-blur-md border-b border-cyber-purple/30">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <span class="text-cyber-purple font-cyber text-2xl font-bold tracking-wider text-shadow-neon">
+                    QUANTUM<span class="text-cyber-blue text-shadow-blue">CHAIN</span>
+                </span>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#about" class="hover:text-cyber-purple transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-cyber-purple after:transition-all after:duration-300">About</a>
+                <a href="#features" class="hover:text-cyber-blue transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-cyber-blue after:transition-all after:duration-300">Features</a>
+                <a href="#applications" class="hover:text-cyber-pink transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-cyber-pink after:transition-all after:duration-300">Applications</a>
+                <a href="#roadmap" class="hover:text-cyber-yellow transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-cyber-yellow after:transition-all after:duration-300">Roadmap</a>
+                <button class="bg-transparent border border-cyber-purple text-cyber-purple px-5 py-2 rounded-sm hover:bg-cyber-purple hover:text-white transition-all duration-300 border-glow">
+                    CONNECT WALLET
+                </button>
+            </div>
+            
+            <!-- Mobile menu button -->
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-white focus:outline-none">
+                    <i class="fa fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cyber-gray/90 backdrop-blur-md">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
+                <a href="#about" class="hover:text-cyber-purple transition-colors duration-300 py-2">About</a>
+                <a href="#features" class="hover:text-cyber-blue transition-colors duration-300 py-2">Features</a>
+                <a href="#applications" class="hover:text-cyber-pink transition-colors duration-300 py-2">Applications</a>
+                <a href="#roadmap" class="hover:text-cyber-yellow transition-colors duration-300 py-2">Roadmap</a>
+                <button class="bg-transparent border border-cyber-purple text-cyber-purple px-5 py-2 rounded-sm hover:bg-cyber-purple hover:text-white transition-all duration-300">
+                    CONNECT WALLET
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-[10%] left-[5%] w-64 h-64 bg-cyber-purple/20 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-[20%] right-[10%] w-80 h-80 bg-cyber-blue/20 rounded-full blur-3xl"></div>
+            <div class="absolute top-[60%] left-[30%] w-40 h-40 bg-cyber-pink/20 rounded-full blur-3xl"></div>
+            
+            <!-- Grid lines -->
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#9D4EDD11_1px,transparent_1px),linear-gradient(to_bottom,#9D4EDD11_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 z-10 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <div class="inline-block border border-cyber-yellow text-cyber-yellow px-4 py-1 mb-6 text-sm tracking-wider animate-pulse">
+                    THE FUTURE OF DECENTRALIZED TECHNOLOGY
+                </div>
+                <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-cyber font-bold leading-none mb-6 glitch" data-text="QUANTUM BLOCKCHAIN">
+                    QUANTUM <span class="text-cyber-purple text-shadow-neon">BLOCKCHAIN</span>
+                </h1>
+                <p class="text-[clamp(1rem,3vw,1.25rem)] text-gray-300 mb-8 max-w-lg">
+                    Merging quantum computing with blockchain technology to create an immutable, unhackable, and exponentially faster decentralized network.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button class="bg-cyber-purple hover:bg-cyber-purple/80 text-white font-bold py-3 px-8 rounded-sm transition-all duration-300 border-glow transform hover:scale-105">
+                        EXPLORE TECHNOLOGY
+                    </button>
+                    <button class="bg-transparent border border-cyber-blue text-cyber-blue font-bold py-3 px-8 rounded-sm hover:bg-cyber-blue/10 transition-all duration-300 transform hover:scale-105">
+                        <i class="fa fa-play-circle mr-2"></i> WATCH DEMO
+                    </button>
+                </div>
+                
+                <div class="mt-12 flex items-center space-x-6">
+                    <div class="flex -space-x-2">
+                        <img src="https://picsum.photos/id/1001/100/100" alt="User avatar" class="w-10 h-10 rounded-full border-2 border-cyber-black">
+                        <img src="https://picsum.photos/id/1002/100/100" alt="User avatar" class="w-10 h-10 rounded-full border-2 border-cyber-black">
+                        <img src="https://picsum.photos/id/1003/100/100" alt="User avatar" class="w-10 h-10 rounded-full border-2 border-cyber-black">
+                        <img src="https://picsum.photos/id/1004/100/100" alt="User avatar" class="w-10 h-10 rounded-full border-2 border-cyber-black">
+                        <div class="w-10 h-10 rounded-full bg-cyber-gray border-2 border-cyber-black flex items-center justify-center text-xs font-bold">
+                            +2k
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex items-center text-yellow-400 mb-1">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                            <span class="ml-2 text-white">4.8/5</span>
+                        </div>
+                        <p class="text-sm text-gray-400">From 1,200+ reviews</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="md:w-1/2 relative">
+                <div class="relative z-10 animate-float">
+                    <img src="https://picsum.photos/id/1/600/500" alt="Quantum Blockchain Visualization" class="rounded-sm border-2 border-cyber-purple border-glow">
+                    <div class="absolute -bottom-6 -right-6 bg-cyber-gray p-4 rounded-sm border border-cyber-blue border-glow-blue">
+                        <div class="text-cyber-blue font-cyber text-2xl font-bold">99.9%</div>
+                        <div class="text-sm text-gray-400">Network Uptime</div>
+                    </div>
+                    <div class="absolute -top-6 -left-6 bg-cyber-gray p-4 rounded-sm border border-cyber-pink">
+                        <div class="text-cyber-pink font-cyber text-2xl font-bold">10,000x</div>
+                        <div class="text-sm text-gray-400">Faster Than Legacy Chains</div>
+                    </div>
+                </div>
+                
+                <!-- Decorative elements -->
+                <div class="absolute top-1/4 -left-10 w-20 h-20 border border-cyber-blue/50 rounded-full animate-pulse"></div>
+                <div class="absolute bottom-1/3 -right-5 w-12 h-12 border border-cyber-pink/50 rounded-full animate-pulse" style="animation-delay: 1s"></div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce">
+            <span class="text-sm text-gray-400 mb-2">SCROLL DOWN</span>
+            <i class="fa fa-chevron-down text-cyber-purple"></i>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 relative overflow-hidden">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-cyber font-bold text-cyber-purple text-shadow-neon mb-2">100M+</div>
+                    <div class="text-gray-400">Transactions</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-cyber font-bold text-cyber-blue text-shadow-blue mb-2">50K+</div>
+                    <div class="text-gray-400">Nodes</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-cyber font-bold text-cyber-pink text-shadow-pink mb-2">99.9%</div>
+                    <div class="text-gray-400">Security Rating</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-cyber font-bold text-cyber-yellow mb-2">250+</div>
+                    <div class="text-gray-400">Partners</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-[40%] right-[5%] w-96 h-96 bg-cyber-purple/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-block border border-cyber-purple text-cyber-purple px-4 py-1 mb-6 text-sm tracking-wider">
+                    REVOLUTIONARY TECHNOLOGY
+                </div>
+                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-cyber font-bold mb-6">
+                    The Next Evolution in <span class="text-cyber-blue text-shadow-blue">Decentralized Networks</span>
+                </h2>
+                <p class="text-gray-300 text-lg">
+                    QuantumChain combines the principles of quantum mechanics with blockchain technology to create a network that's exponentially faster, more secure, and fundamentally unhackable.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="relative">
+                    <div class="absolute -top-8 -left-8 w-32 h-32 border border-cyber-pink/30"></div>
+                    <img src="https://picsum.photos/id/2/600/600" alt="Quantum Computing meets Blockchain" class="rounded-sm border border-cyber-blue relative z-10">
+                    <div class="absolute -bottom-8 -right-8 w-32 h-32 border border-cyber-purple/30"></div>
+                    
+                    <!-- Floating data points -->
+                    <div class="absolute top-1/4 right-0 transform translate-x-1/3 bg-cyber-gray p-3 rounded-sm border border-cyber-purple">
+                        <div class="text-xs text-gray-400">Quantum Resistance</div>
+                        <div class="text-cyber-purple font-cyber">100%</div>
+                    </div>
+                    <div class="absolute bottom-1/3 left-0 transform -translate-x-1/3 bg-cyber-gray p-3 rounded-sm border border-cyber-blue">
+                        <div class="text-xs text-gray-400">Transaction Speed</div>
+                        <div class="text-cyber-blue font-cyber">10M TPS</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-sm bg-cyber-purple/20 flex items-center justify-center text-cyber-purple mr-4">
+                                    <i class="fa fa-shield text-2xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-cyber font-bold">Quantum-Resistant Security</h3>
+                            </div>
+                            <p class="text-gray-300 pl-16">
+                                Our proprietary quantum encryption algorithms protect against future quantum computing threats that could compromise traditional blockchain networks.
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-sm bg-cyber-blue/20 flex items-center justify-center text-cyber-blue mr-4">
+                                    <i class="fa fa-bolt text-2xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-cyber font-bold">Exponential Speed</h3>
+                            </div>
+                            <p class="text-gray-300 pl-16">
+                                Leveraging quantum entanglement principles for consensus, our network achieves transaction speeds thousands of times faster than conventional blockchains.
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 rounded-sm bg-cyber-pink/20 flex items-center justify-center text-cyber-pink mr-4">
+                                    <i class="fa fa-code-fork text-2xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-cyber font-bold">True Decentralization</h3>
+                            </div>
+                            <p class="text-gray-300 pl-16">
+                                Our unique consensus mechanism eliminates the need for energy-intensive mining while maintaining a fully decentralized network structure.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <button class="mt-10 bg-transparent border border-cyber-blue text-cyber-blue px-6 py-3 rounded-sm hover:bg-cyber-blue/10 transition-all duration-300 flex items-center">
+                        LEARN MORE ABOUT OUR TECHNOLOGY
+                        <i class="fa fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 bg-cyber-gray/30 relative">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute bottom-[10%] left-[10%] w-80 h-80 bg-cyber-blue/10 rounded-full blur-3xl"></div>
+            <!-- Grid lines -->
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#05D9E80A_1px,transparent_1px),linear-gradient(to_bottom,#05D9E80A_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-block border border-cyber-blue text-cyber-blue px-4 py-1 mb-6 text-sm tracking-wider">
+                    KEY FEATURES
+                </div>
+                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-cyber font-bold mb-6">
+                    Advanced <span class="text-cyber-purple text-shadow-neon">Quantum Technology</span>
+                </h2>
+                <p class="text-gray-300 text-lg">
+                    Discover the revolutionary features that make QuantumChain the most advanced blockchain network ever developed.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-cyber-gray/50 backdrop-blur-sm p-8 rounded-sm border border-cyber-purple/30 hover:border-cyber-purple transition-all duration-500 transform hover:-translate-y-2 hover:border-glow">
+                    <div class="w-16 h-16 rounded-sm bg-cyber-purple/20 flex items-center justify-center text-cyber-purple mb-6">
+                        <i class="fa fa-lock text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-cyber font-bold mb-4">Quantum Encryption</h3>
+                    <p class="text-gray-300 mb-6">
+                        Utilizes quantum key distribution to create unbreakable encryption that's fundamentally secure against any computational attack.
+                    </p>
+                    <a href="#" class="text-cyber-purple hover:text-white transition-colors duration-300 flex items-center">
+                        Learn more <i class="fa fa-angle-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bg-cyber-gray/50 backdrop-blur-sm p-8 rounded-sm border border-cyber-blue/30 hover:border-cyber-blue transition-all duration-500 transform hover:-translate-y-2 hover:border-glow-blue">
+                    <div class="w-16 h-16 rounded-sm bg-cyber-blue/20 flex items-center justify-center text-cyber-blue mb-6">
+                        <i class="fa fa-tachometer text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-cyber font-bold mb-4">Entangled Consensus</h3>
+                    <p class="text-gray-300 mb-6">
+                        Our proprietary consensus algorithm leverages quantum entanglement principles for near-instant transaction validation.
+                    </p>
+                    <a href="#" class="text-cyber-blue hover:text-white transition-colors duration-300 flex items-center">
+                        Learn more <i class="fa fa-angle-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="bg-cyber-gray/50 backdrop-blur-sm p-8 rounded-sm border border-cyber-pink/30 hover:border-cyber-pink transition-all duration-500 transform hover:-translate-y-2">
+                    <div class="w-16 h-16 rounded-sm bg-cyber-pink/20 flex items-center justify-center text-cyber-pink mb-6">
+                        <i class="fa fa-random text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-cyber font-bold mb-4">Quantum Bridges</h3>
+                    <p class="text-gray-300 mb-6">
+                        Seamlessly connect with legacy blockchain networks through our quantum-secured bridge technology.
+                    </p>
+                    <a href="#" class="text-cyber-pink hover:text-white transition-colors duration-300 flex items-center">
+                        Learn more <i class="fa fa-angle-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="bg-cyber-gray/50 backdrop-blur-sm p-8 rounded-sm border border-cyber-yellow/30 hover:border-cyber-yellow transition-all duration-500 transform hover:-translate-y-2">
+                    <div class="w-16 h-16 rounded-sm bg-cyber-yellow/20 flex items-center justify-center text-cyber-yellow mb-6">
+                        <i class="fa fa-microchip text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-cyber font-bold mb-4">Hybrid Nodes</h3>
+                    <p class="text-gray-300 mb-6">
+                        Operate nodes using conventional hardware with optional quantum acceleration for enhanced performance.
+                    </p>
+                    <a href="#" class="text-cyber-yellow hover:text-white transition-colors duration-300 flex items-center">
+                        Learn more <i class="fa fa-angle-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="bg-cyber-gray/50 backdrop-blur-sm p-8 rounded-sm border border-cyber-purple/30 hover:border-cyber-purple transition-all duration-500 transform hover:-translate-y-2 hover:border-glow">
+                    <div class="w-16 h-16 rounded-sm bg-cyber-purple/20 flex items-center justify-center text-cyber-purple mb-6">
+                        <i class="fa fa-code text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-cyber font-bold mb-4">Quantum Smart Contracts</h3>
+                    <p class="text-gray-300 mb-6">
+                        Program self-executing contracts with quantum-enhanced logic and security features.
+                    </p>
+                    <a href="#" class="text-cyber-purple hover:text-white transition-colors duration-300 flex items-center">
+                        Learn more <i class="fa fa-angle-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="bg-cyber-gray/50 backdrop-blur-sm p-8 rounded-sm border border-cyber-blue/30 hover:border-cyber-blue transition-all duration-500 transform hover:-translate-y-2 hover:border-glow-blue">
+                    <div class="w-16 h-16 rounded-sm bg-cyber-blue/20 flex items-center justify-center text-cyber-blue mb-6">
+                        <i class="fa fa-leaf text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-cyber font-bold mb-4">Zero Energy Footprint</h3>
+                    <p class="text-gray-300 mb-6">
+                        Eliminates energy-intensive mining operations through our revolutionary consensus mechanism.
+                    </p>
+                    <a href="#" class="text-cyber-blue hover:text-white transition-colors duration-300 flex items-center">
+                        Learn more <i class="fa fa-angle-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Chart Section -->
+    <section class="py-24 relative">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-block border border-cyber-yellow text-cyber-yellow px-4 py-1 mb-6 text-sm tracking-wider">
+                    PERFORMANCE METRICS
+                </div>
+                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-cyber font-bold mb-6">
+                    Unmatched <span class="text-cyber-yellow">Speed & Efficiency</span>
+                </h2>
+                <p class="text-gray-300 text-lg">
+                    QuantumChain outperforms all existing blockchain networks by orders of magnitude while maintaining complete security.
+                </p>
+            </div>
+            
+            <div class="bg-cyber-gray/50 backdrop-blur-sm p-6 md:p-10 rounded-sm border border-cyber-blue/30">
+                <div class="h-[400px] w-full">
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Applications Section -->
+    <section id="applications" class="py-24 bg-cyber-gray/30 relative">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-[20%] right-[30%] w-64 h-64 bg-cyber-pink/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-block border border-cyber-pink text-cyber-pink px-4 py-1 mb-6 text-sm tracking-wider">
+                    PRACTICAL APPLICATIONS
+                </div>
+                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-cyber font-bold mb-6">
+                    Transforming <span class="text-cyber-pink text-shadow-pink">Industries</span>
+                </h2>
+                <p class="text-gray-300 text-lg">
+                    Discover how QuantumChain's revolutionary technology is disrupting industries and creating new possibilities.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Application 1 -->
+                <div class="group relative overflow-hidden rounded-sm">
+                    <img src="https://picsum.photos/id/3/600/400" alt="Financial Services" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-cyber-black via-cyber-black/70 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <div class="w-12 h-12 rounded-sm bg-cyber-pink/80 flex items-center justify-center text-white mb-4">
+                            <i class="fa fa-bank text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-cyber font-bold mb-2">Financial Services</h3>
+                        <p class="text-gray-300 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Instant cross-border transactions with quantum-secure settlements and smart contract automation.
+                        </p>
+                        <a href="#" class="text-cyber-pink hover:text-white transition-colors duration-300 flex items-center">
+                            Explore use cases <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Application 2 -->
+                <div class="group relative overflow-hidden rounded-sm">
+                    <img src="https://picsum.photos/id/4/600/400" alt="Healthcare" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-cyber-black via-cyber-black/70 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <div class="w-12 h-12 rounded-sm bg-cyber-blue/80 flex items-center justify-center text-white mb-4">
+                            <i class="fa fa-medkit text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-cyber font-bold mb-2">Healthcare</h3>
+                        <p class="text-gray-300 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Secure, immutable medical records with patient-controlled access and quantum encryption.
+                        </p>
+                        <a href="#" class="text-cyber-blue hover:text-white transition-colors duration-300 flex items-center">
+                            Explore use cases <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Application 3 -->
+                <div class="group relative overflow-hidden rounded-sm">
+                    <img src="https://picsum.photos/id/5/600/400" alt="Supply Chain" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-cyber-black via-cyber-black/70 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <div class="w-12 h-12 rounded-sm bg-cyber-purple/80 flex items-center justify-center text-white mb-4">
+                            <i class="fa fa-truck text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-cyber font-bold mb-2">Supply Chain</h3>
+                        <p class="text-gray-300 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            End-to-end transparency with real-time tracking and quantum-secured authenticity verification.
+                        </p>
+                        <a href="#" class="text-cyber-purple hover:text-white transition-colors duration-300 flex items-center">
+                            Explore use cases <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Application 4 -->
+                <div class="group relative overflow-hidden rounded-sm">
+                    <img src="https://picsum.photos/id/6/600/400" alt="Digital Identity" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-cyber-black via-cyber-black/70 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <div class="w-12 h-12 rounded-sm bg-cyber-yellow/80 flex items-center justify-center text-cyber-black mb-4">
+                            <i class="fa fa-id-card text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-cyber font-bold mb-2">Digital Identity</h3>
+                        <p class="text-gray-300 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Self-sovereign identity management with unbreakable security and user-controlled data sharing.
+                        </p>
+                        <a href="#" class="text-cyber-yellow hover:text-white transition-colors duration-300 flex items-center">
+                            Explore use cases <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Application 5 -->
+                <div class="group relative overflow-hidden rounded-sm">
+                    <img src="https://picsum.photos/id/7/600/400" alt="Energy Sector" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-cyber-black via-cyber-black/70 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <div class="w-12 h-12 rounded-sm bg-cyber-pink/80 flex items-center justify-center text-white mb-4">
+                            <i class="fa fa-bolt text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-cyber font-bold mb-2">Energy Sector</h3>
+                        <p class="text-gray-300 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Decentralized energy grids with peer-to-peer trading and smart metering on a quantum-secure network.
+                        </p>
+                        <a href="#" class="text-cyber-pink hover:text-white transition-colors duration-300 flex items-center">
+                            Explore use cases <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Application 6 -->
+                <div class="group relative overflow-hidden rounded-sm">
+                    <img src="https://picsum.photos/id/8/600/400" alt="Government" class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-cyber-black via-cyber-black/70 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <div class="w-12 h-12 rounded-sm bg-cyber-blue/80 flex items-center justify-center text-white mb-4">
+                            <i class="fa fa-building text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-cyber font-bold mb-2">Government</h3>
+                        <p class="text-gray-300 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Secure voting systems, document verification, and transparent public record management.
+                        </p>
+                        <a href="#" class="text-cyber-blue hover:text-white transition-colors duration-300 flex items-center">
+                            Explore use cases <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="py-24 relative">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute bottom-[30%] left-[20%] w-72 h-72 bg-cyber-purple/10 rounded-full blur-3xl"></div>
+            <!-- Grid lines -->
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#9D4EDD0A_1px,transparent_1px),linear-gradient(to_bottom,#9D4EDD0A_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-block border border-cyber-purple text-cyber-purple px-4 py-1 mb-6 text-sm tracking-wider">
+                    DEVELOPMENT ROADMAP
+                </div>
+                <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-cyber font-bold mb-6">
+                    Our <span class="text-cyber-blue text-shadow-blue">Quantum Journey</span>
+                </h2>
+                <p class="text-gray-300 text-lg">
+                    Follow our development timeline as we revolutionize blockchain technology with quantum computing.
+                </p>
+            </div>
+            
+            <div class="relative">
+                <!-- Timeline line -->
+                <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-cyber-purple/30 transform md:translate-x-px"></div>
+                
+                <!-- Timeline items -->
+                <div class="space-y-16">
+                    <!-- Phase 1 -->
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 md:pr-12 md:text-right mb-8 md:mb-0 md:order-1">
+                            <div class="bg-cyber-gray/50 backdrop-blur-sm p-6 rounded-sm border border-cyber-purple/30">
+                                <div class="inline-block border border-cyber-purple text-cyber-purple px-3 py-1 mb-4 text-xs tracking-wider">
+                                    COMPLETED
+                                </div>
+                                <h3 class="text-2xl font-cyber font-bold mb-3">Phase 1: Foundation</h3>
+                                <p class="text-gray-300 mb-4">
+                                    Research and development of core quantum-resistant algorithms and basic blockchain infrastructure.
+                                </p>
+                                <ul class="text-gray-400 space-y-2 mb-4">
+                                    <li>• Quantum encryption protocol development</li>
+                                    <li>• Initial consensus mechanism design</li>
+                                    <li>• Secure wallet infrastructure</li>
+                                </ul>
+                                <div class="text-cyber-purple font-cyber">Q1-Q4 2023</div>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute left-0 md:left-1/2 w-6 h-6 rounded-full bg-cyber-purple transform -translate-x-1/2 border-4 border-cyber-black z-10"></div>
+                        
+                        <div class="md:w-1/2 md:pl-12 md:order-2"></div>
+                    </div>
+                    
+                    <!-- Phase 2 -->
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 md:pr-12 md:text-right mb-8 md:mb-0 md:order-1"></div>
+                        
+                        <div class="absolute left-0 md:left-1/2 w-6 h-6 rounded-full bg-cyber-blue transform -translate-x-1/2 border-4 border-cyber-black z-10"></div>
+                        
+                        <div class="md:w-1/2 md:pl-12 md:order-2">
+                            <div class="bg-cyber-gray/50 backdrop-blur-sm p-6 rounded-sm border border-cyber-blue/30">
+                                <div class="inline-block border border-cyber-blue text-cyber-blue px-3 py-1 mb-4 text-xs tracking-wider">
+                                    IN PROGRESS
+                                </div>
+                                <h3 class="text-2xl font-cyber font-bold mb-3">Phase 2: Testnet</h3>
+                                <p class="text-gray-300 mb-4">
+                                    Launch of QuantumChain testnet with limited quantum capabilities and developer tools.
+                                </p>
+                                <ul class="text-gray-400 space-y-2 mb-4">
+                                    <li>• Testnet deployment</li>
+                                    <li>• Developer documentation & SDKs</li>
+                                    <li>• Smart contract platform</li>
+                                </ul>
+                                <div class="text-cyber-blue font-cyber">Q1-Q3 2024</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 3 -->
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 md:pr-12 md:text-right mb-8 md:mb-0 md:order-1">
+                            <div class="bg-cyber-gray/50 backdrop-blur-sm p-6 rounded-sm border border-cyber-pink/30">
+                                <div class="inline-block border border-cyber-pink text-cyber-pink px-3 py-1 mb-4 text-xs tracking-wider">
+                                    UPCOMING
+                                </div>
+                                <h3 class="text-2xl font-cyber font-bold mb-3">Phase 3: Mainnet Launch</h3>
+                                <p class="text-gray-300 mb-4">
+                                    Full launch of QuantumChain mainnet with complete quantum integration and enhanced security.
+                                </p>
+                                <ul class="text-gray-400 space-y-2 mb-4">
+                                    <li>• Mainnet deployment</li>
+                                    <li>• Quantum node infrastructure</li>
+                                    <li>• Cross-chain bridges</li>
+                                </ul>
+                                <div class="text-cyber-pink font-cyber">Q4 2024</div>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute left-0 md:left-1/2 w-6 h-6 rounded-full bg-cyber-pink transform -translate-x-1/2 border-4 border-cyber-black z-10"></div>
+                        
+                        <div class="md:w-1/2 md:pl-12 md:order-2"></div>
+                    </div>
+                    
+                    <!-- Phase 4 -->
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="md:w-1/2 md:pr-12 md:text-right mb-8 md:mb-0 md:order-1"></div>
+                        
+                        <div class="absolute left-0 md:left-1/2 w-6 h-6 rounded-full bg-cyber-yellow transform -translate-x-1/2 border-4 border-cyber-black z-10"></div>
+                        
+                        <div class="md:w-1/2 md:pl-12 md:order-2">
+                            <div class="bg-cyber-gray/50 backdrop-blur-sm p-6 rounded-sm border border-cyber-yellow/30">
+                                <div class="inline-block border border-cyber-yellow text-cyber-yellow px-3 py-1 mb-4 text-xs tracking-wider">
+                                    FUTURE
+                                
+                                </div>
+                                <h3 class="text-2xl font-cyber font-bold mb-3">Phase 4: Quantum Expansion</h3>
+                                <p class="text-gray-300 mb-4">
+                                    Integration with quantum computing networks and expansion of quantum capabilities.
+                                </p>
+                                <ul class="text-gray-400 space-y-2 mb-4">
+                                    <li>• Quantum computing network integration</li>
+                                    <li>• Advanced quantum smart contracts</li>
+                                    <li>• Global node infrastructure</li>
+                                </ul>
+                                <div class="text-cyber-yellow font-cyber">2025-2026</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,#9D4EDD33_0%,transparent_70%)]"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto bg-cyber-gray/40 backdrop-blur-md p-10 md:p-16 rounded-sm border border-cyber-purple/50 border-glow relative overflow-hidden">
+                <!-- Decorative elements -->
+                <div class="absolute -top-10 -right-10 w-40 h-40 border border-cyber-blue/30 rounded-full"></div>
+                <div class="absolute -bottom-10 -left-10 w-40 h-40 border border-cyber-pink/30 rounded-full"></div>
+                
+                <div class="text-center mb-10 relative z-10">
+                    <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-cyber font-bold mb-6">
+                        Ready to Join the <span class="text-cyber-purple text-shadow-neon">Quantum Revolution?</span>
+                    </h2>
+                    <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+                        Be among the first to experience the future of blockchain technology. Join our community and stay updated on developments.
+                    </p>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
+                    <button class="bg-cyber-purple hover:bg-cyber-purple/80 text-white font-bold py-3 px-8 rounded-sm transition-all duration-300 border-glow transform hover:scale-105">
+                        GET EARLY ACCESS
+                    </button>
+                    <button class="bg-transparent border border-cyber-blue text-cyber-blue font-bold py-3 px-8 rounded-sm hover:bg-cyber-blue/10 transition-all duration-300 transform hover:scale-105">
+                        JOIN DEVELOPER PROGRAM
+                    </button>
+                </div>
+                
+                <div class="mt-12 text-center relative z-10">
+                    <p class="text-gray-400 mb-4">Join our community of over 50,000 technology enthusiasts</p>
+                    <div class="flex justify-center space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-cyber-purple transition-colors duration-300 text-2xl">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors duration-300 text-2xl">
+                            <i class="fa fa-discord"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-cyber-pink transition-colors duration-300 text-2xl">
+                            <i class="fa fa-telegram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-cyber-yellow transition-colors duration-300 text-2xl">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-cyber-gray/30 border-t border-cyber-purple/30 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                <div class="md:col-span-1">
+                    <div class="text-cyber-purple font-cyber text-2xl font-bold tracking-wider text-shadow-neon mb-6">
+                        QUANTUM<span class="text-cyber-blue text-shadow-blue">CHAIN</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">
+                        The next evolution in blockchain technology, merging quantum computing with decentralized networks.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-cyber-purple transition-colors duration-300">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors duration-300">
+                            <i class="fa fa-discord"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-cyber-pink transition-colors duration-300">
+                            <i class="fa fa-telegram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-cyber-yellow transition-colors duration-300">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-cyber font-bold mb-6">Technology</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-purple transition-colors duration-300">Quantum Encryption</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-purple transition-colors duration-300">Consensus Mechanism</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-purple transition-colors duration-300">Smart Contracts</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-purple transition-colors duration-300">Network Architecture</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-purple transition-colors duration-300">Developer Tools</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-cyber font-bold mb-6">Resources</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors duration-300">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors duration-300">Whitepaper</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors duration-300">Research Papers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors duration-300">Developer Portal</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-blue transition-colors duration-300">API Reference</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-cyber font-bold mb-6">Company</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-pink transition-colors duration-300">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-pink transition-colors duration-300">Team</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-pink transition-colors duration-300">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-pink transition-colors duration-300">Partners</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyber-pink transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm mb-4 md:mb-0">
+                    &copy; 2024 QuantumChain. All rights reserved.
+                </p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-gray-300 text-sm transition-colors duration-300">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-300 text-sm transition-colors duration-300">Terms of Service</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-300 text-sm transition-colors duration-300">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
+            });
+        });
+        
+        // Performance Chart
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Bitcoin', 'Ethereum', 'Solana', 'Avalanche', 'QuantumChain'],
+                datasets: [{
+                    label: 'Transactions Per Second',
+                    data: [7, 15, 2000, 4500, 10000000],
+                    backgroundColor: [
+                        'rgba(157, 78, 221, 0.3)',
+                        'rgba(5, 217, 232, 0.3)',
+                        'rgba(255, 32, 110, 0.3)',
+                        'rgba(249, 240, 2, 0.3)',
+                        'rgba(157, 78, 221, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(157, 78, 221, 1)',
+                        'rgba(5, 217, 232, 1)',
+                        'rgba(255, 32, 110, 1)',
+                        'rgba(249, 240, 2, 1)',
+                        'rgba(157, 78, 221, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'logarithmic',
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Scroll animation for elements
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.border-glow, .border-glow-blue');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementPosition < windowHeight - 100) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            animateOnScroll();
+        });
+        
+        // Animate on scroll
+        window.addEventListener('scroll', animateOnScroll);
+    </script>
+</body>
+</html>
